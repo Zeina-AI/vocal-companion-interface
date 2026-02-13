@@ -9,6 +9,7 @@ type AppStatus = "idle" | "recording" | "processing" | "playing";
 const Index = () => {
   const [status, setStatus] = useState<AppStatus>("idle");
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
@@ -17,6 +18,8 @@ const Index = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
+      setMediaStream(stream);
+      chunksRef.current = [];
       chunksRef.current = [];
 
       mediaRecorder.ondataavailable = (e) => {
@@ -26,6 +29,7 @@ const Index = () => {
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: "audio/webm" });
         setAudioBlob(blob);
+        setMediaStream(null);
         setStatus("processing");
         stream.getTracks().forEach((t) => t.stop());
 
@@ -88,6 +92,7 @@ const Index = () => {
         <WaveVisualizer
           isActive={status === "recording" || status === "playing"}
           audioBlob={audioBlob}
+          mediaStream={mediaStream}
         />
 
         <MicButton
