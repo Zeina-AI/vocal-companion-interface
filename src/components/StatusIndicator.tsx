@@ -3,8 +3,9 @@ interface StatusIndicatorProps {
 }
 
 const StatusIndicator = ({ status }: StatusIndicatorProps) => {
+  if (status === "idle") return null;
+
   const labels: Record<string, string> = {
-    idle: "Tap to speak",
     recording: "Listening...",
     processing: "Processing...",
     playing: "Speaking...",
@@ -14,9 +15,7 @@ const StatusIndicator = ({ status }: StatusIndicatorProps) => {
     <div className="flex items-center gap-2">
       <div
         className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-          status === "idle"
-            ? "bg-muted-foreground"
-            : status === "recording"
+          status === "recording"
             ? "bg-primary animate-pulse"
             : status === "processing"
             ? "bg-accent animate-pulse"

@@ -74,7 +74,7 @@ const Index = () => {
         </div>
 
         {/* Character image */}
-        <div className="relative z-10 w-full max-w-sm">
+        <div className="relative z-10 w-full max-w-lg">
           <img
             src={aiCharacter}
             alt="AI Assistant"
