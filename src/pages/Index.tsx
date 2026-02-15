@@ -3,12 +3,15 @@ import aiCharacter from "@/assets/ai-character.png";
 import MicButton from "@/components/MicButton";
 import WaveVisualizer from "@/components/WaveVisualizer";
 import StatusIndicator from "@/components/StatusIndicator";
+import TranscriptButton from "@/components/TranscriptButton";
 
 type AppStatus = "idle" | "recording" | "processing" | "playing";
 
 const Index = () => {
   const [status, setStatus] = useState<AppStatus>("idle");
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [asrText, setAsrText] = useState("");
+  const [replyText, setReplyText] = useState("");
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -101,6 +104,8 @@ const Index = () => {
           onClick={handleMicClick}
         />
       </div>
+
+      <TranscriptButton asrText={asrText} replyText={replyText} />
     </div>
   );
 };
