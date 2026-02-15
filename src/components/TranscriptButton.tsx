@@ -7,16 +7,12 @@ interface TranscriptButtonProps {
 }
 
 const TranscriptButton = ({ asrText, replyText }: TranscriptButtonProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div
-      className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
       {/* Popup */}
-      {isHovered && (asrText || replyText) && (
+      {isOpen && (
         <div className="w-72 rounded-lg border border-border bg-card p-3 shadow-lg space-y-2 animate-in fade-in-0 zoom-in-95 duration-200">
           <div>
             <span className="text-xs font-semibold text-muted-foreground tracking-wide">ASR</span>
@@ -31,6 +27,7 @@ const TranscriptButton = ({ asrText, replyText }: TranscriptButtonProps) => {
 
       {/* Button */}
       <button
+        onClick={() => setIsOpen((v) => !v)}
         className="w-10 h-10 rounded-full bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
         aria-label="Show transcript"
       >
